@@ -1,0 +1,17 @@
+{
+  "name": "aoc-2022",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Minwoo Kang",
+  "license": "MIT",
+  "scripts": {
+    "build": "rescript build -with-deps",
+    "watch": "rescript build -w"
+  },
+  "devDependencies": {
+    "rescript": "^10.0.1"
+  },
+  "dependencies": {
+    "rescript-nodejs": "^14.3.1"
+  }
+}
