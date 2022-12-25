@@ -49,10 +49,8 @@ let parseInput = input =>
   | _ => None
   }
 
-let input = Utils.readInput("Day5.txt")
-
 let part1 =
-  input
+  Utils.readInput("Day5.txt")
   ->parseInput
   ->Option.map(({crates, moves}) => {
     moves
@@ -68,7 +66,7 @@ let part1 =
   })
 
 let part2 =
-  input
+  Utils.readInput("Day5.txt")
   ->parseInput
   ->Option.map(({crates, moves}) => {
     moves

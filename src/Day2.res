@@ -88,7 +88,7 @@ type inferenceGame = {
 }
 
 let part1 =
-  Utils.readInput("Day2.part1.txt")
+  Utils.readInput("Day2.txt")
   ->Js.String2.split("\n")
   ->Array.keepMap(line =>
     switch line->Js.String2.split(" ") {
@@ -108,7 +108,7 @@ let part1 =
   ->Utils.sumIntArray
 
 let part2 =
-  Utils.readInput("Day2.part2.txt")
+  Utils.readInput("Day2.txt")
   ->Js.String2.split("\n")
   ->Array.keepMap(line =>
     switch line->Js.String2.split(" ") {

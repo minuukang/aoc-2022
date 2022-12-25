@@ -16,7 +16,7 @@ let parseInput = input =>
   ->Array.map(line => line->Js.String2.split("")->Array.keepMap(getPriority))
 
 let part1 =
-  Utils.readInput("Day3.part1.txt")
+  Utils.readInput("Day3.txt")
   ->parseInput
   ->Array.map(items => {
     let len = Array.length(items)
@@ -32,7 +32,7 @@ let part1 =
   ->Utils.sumIntArray
 
 let part2 =
-  Utils.readInput("Day3.part2.txt")
+  Utils.readInput("Day3.txt")
   ->parseInput
   ->Utils.chunkArray(~step=3)
   ->Array.keepMap(group => {

@@ -15,7 +15,7 @@ let parseInput = input =>
   )
 
 let part1 =
-  Utils.readInput("Day4.part1.txt")
+  Utils.readInput("Day4.txt")
   ->parseInput
   ->Array.keep(((sections1, sections2)) =>
     sections1->Set.Int.intersect(sections2)->Set.Int.size ==
@@ -24,7 +24,7 @@ let part1 =
   ->Array.length
 
 let part2 =
-  Utils.readInput("Day4.part2.txt")
+  Utils.readInput("Day4.txt")
   ->parseInput
   ->Array.keep(((sections1, sections2)) =>
     sections1->Set.Int.intersect(sections2)->Set.Int.size > 0
