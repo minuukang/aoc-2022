@@ -21,7 +21,7 @@ let rec getDirectorySize = tree => {
 }
 
 let parseLsLine = (line, parent) =>
-  switch line->Js.String2.split(" ") {
+  switch line->String.split(" ") {
   | ["dir", name] =>
     Some(
       Directory({
@@ -38,7 +38,7 @@ let parseLsLine = (line, parent) =>
   | _ => None
   }
 
-exception ParseError(Js.Re.result)
+exception ParseError(RegExp.Result.t)
 
 let parseInput = input => {
   let root = {
@@ -49,26 +49,22 @@ let parseInput = input => {
   ->Utils.stringMatchAll(%re("/(\$ (cd) ([^\s]+)|\$ (ls)\n([^$]+))/g"))
   ->Array.reduce(Some(root), (current, command) => {
     let current = current->Option.getExn
-    switch command->Js.Re.captures->Array.keepMap(Js.Nullable.toOption) {
+    switch command {
     | [_, _, "cd", "/"] => Some(root)
     | [_, _, "cd", ".."] => current.parent
     | [_, _, "cd", name] =>
       current.children
-      ->Array.keepMap(file =>
+      ->Array.filterMap(file =>
         switch file {
         | Directory(tree) => Some(tree)
         | File(_) => None
         }
       )
-      ->Array.getBy(directoryTree => directoryTree.name == name)
+      ->Array.find(directoryTree => directoryTree.name == name)
     | [_, _, "ls", children] =>
       current.children
-      ->Js.Array2.pushMany(
-        children
-        ->Js.String2.split("\n")
-        ->Array.keepMap(line => {
-          parseLsLine(line, current)
-        }),
+      ->Array.pushMany(
+        children->String.split("\n")->Array.filterMap(line => parseLsLine(line, current)),
       )
       ->ignore
       Some(current)
@@ -82,38 +78,46 @@ let parseInput = input => {
 let rec makeChildrenDirectorySizeMap = (map, tree, prefix) => {
   tree.children->Array.reduce(map, (map', file) => {
     switch file {
-    | Directory(tree) =>
-      map'
-      ->Map.String.set(prefix ++ tree.name, getDirectorySize(tree))
-      ->Map.String.mergeMany(
-        makeChildrenDirectorySizeMap(map', tree, prefix ++ tree.name ++ "/")->Map.String.toArray,
-      )
-
+    | Directory(tree) => {
+        map'->Map.set(`${prefix}${tree.name}`, getDirectorySize(tree))
+        Map.fromArray(
+          Array.concat(
+            map'->Map.entries->Iterator.toArray,
+            makeChildrenDirectorySizeMap(map', tree, prefix ++ tree.name ++ "/")
+            ->Map.entries
+            ->Iterator.toArray,
+          ),
+        )
+      }
     | File(_) => map'
     }
   })
 }
 
-Utils.readInput("Day7.txt")
+let input = await Utils.readInputAsync("Day7.txt")
+
+input
 ->parseInput
 ->Some
 ->Option.map(root => {
   let rootSize = getDirectorySize(root)
-  let directorySizeMap = makeChildrenDirectorySizeMap(Map.String.empty, root, root.name)
+  let directorySizeMap = makeChildrenDirectorySizeMap(Map.make(), root, root.name)
   {
     "part1": directorySizeMap
-    ->Map.String.valuesToArray
-    ->Array.keep(size => size < 100000)
+    ->Map.values
+    ->Iterator.toArray
+    ->Array.filter(size => size < 100000)
     ->Utils.sumIntArray,
     "part2": {
       let totalDiskSize = 70000000
       let needDiskSize = 30000000
       let needDeleteDiskSize = needDiskSize - (totalDiskSize - rootSize)
       directorySizeMap
-      ->Map.String.valuesToArray
-      ->Array.keep(size => size > needDeleteDiskSize)
-      ->Js.Math.minMany_int
+      ->Map.values
+      ->Iterator.toArray
+      ->Array.filter(size => size > needDeleteDiskSize)
+      ->Math.Int.minMany
     },
   }
 })
-->Js.log
+->Console.log

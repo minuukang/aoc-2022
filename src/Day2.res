@@ -87,11 +87,13 @@ type inferenceGame = {
   playerStatus: status,
 }
 
+let textInput = await Utils.readInputAsync("Day2.txt")
+
 let part1 =
-  Utils.readInput("Day2.txt")
-  ->Js.String2.split("\n")
-  ->Array.keepMap(line =>
-    switch line->Js.String2.split(" ") {
+  textInput
+  ->String.split("\n")
+  ->Array.filterMap(line =>
+    switch line->String.split(" ") {
     | [char1, char2] =>
       switch (parseElfShape(char1), parsePlayerShape(char2)) {
       | (Some(elfShape), Some(playerShape)) =>
@@ -108,10 +110,10 @@ let part1 =
   ->Utils.sumIntArray
 
 let part2 =
-  Utils.readInput("Day2.txt")
-  ->Js.String2.split("\n")
-  ->Array.keepMap(line =>
-    switch line->Js.String2.split(" ") {
+  textInput
+  ->String.split("\n")
+  ->Array.filterMap(line =>
+    switch line->String.split(" ") {
     | [char1, char2] =>
       switch (parseElfShape(char1), parsePlayerNecessaryStatus(char2)) {
       | (Some(elfShape), Some(playerStatus)) =>
@@ -132,7 +134,7 @@ let part2 =
   )
   ->Utils.sumIntArray
 
-Js.log({
+Console.log({
   "part1": part1,
   "part2": part2,
 })

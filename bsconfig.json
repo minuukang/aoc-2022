@@ -2,7 +2,7 @@
   "name": "aoc2022",
   "reason": { "react-jsx": 3 },
   "package-specs": {
-    "module": "commonjs",
+    "module": "es6",
     "in-source": true
   },
   "suffix": ".bs.js",
@@ -12,11 +12,12 @@
       "subdirs": true
     }
   ],
-  "bsc-flags": ["-bs-no-version-header", "-open Belt"],
+  "bsc-flags": ["-bs-no-version-header", "-open RescriptCore"],
   "warnings": {
     "error": true
   },
   "bs-dependencies": [
-    "rescript-nodejs"
+    "rescript-nodejs",
+    "@rescript/core"
   ]
 }

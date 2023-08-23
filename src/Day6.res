@@ -1,20 +1,20 @@
 let parseBuffer = (stream, bufferSize) => {
-  Array.range(0, stream->Array.length)
-  ->Array.getBy(current => {
-    let seq = Set.String.fromArray(
-      Array.range(current, current + (bufferSize - 1))->Array.keepMap(index =>
+  Belt.Array.range(0, stream->Array.length)
+  ->Array.find(current => {
+    let seq = Set.fromArray(
+      Belt.Array.range(current, current + (bufferSize - 1))->Array.filterMap(index =>
         stream->Array.get(index)
       ),
     )
-    seq->Set.String.size == bufferSize
+    seq->Set.size == bufferSize
   })
   ->Option.map(position => position + bufferSize)
 }
 
-let input = Utils.readInput("day6.txt")->Js.String2.split("")
+let input = (await Utils.readFilePromise("day6.txt"))->String.split("")
 
 // part1
-input->parseBuffer(4)->Js.log
+input->parseBuffer(4)->Console.log
 
 // part2
-input->parseBuffer(14)->Js.log
+input->parseBuffer(14)->Console.log

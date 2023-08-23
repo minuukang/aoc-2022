@@ -2,12 +2,17 @@
 # yarn lockfile v1
 
 
-rescript-nodejs@^14.3.1:
-  version "14.3.1"
-  resolved "https://registry.yarnpkg.com/rescript-nodejs/-/rescript-nodejs-14.3.1.tgz#a22c907f5fcf881bab37c8921b670029ed76b2a5"
-  integrity sha512-oiQo2Rd6lb8TAkB6NT3IVFJcKanSoIC9+SrBTT6OKQtGvAIi6Dd9CNoGA4pbOUXcg8+lza6vhy/YWYzYBYKt3g==
+"@rescript/core@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@rescript/core/-/core-0.4.0.tgz#cfd5743f8530dda2ff9ef4e9694eaa28597993ae"
+  integrity sha512-qK7arhc6l0uDcS6/1FZ5r9ztisOIySw1RPsfCZj47lBbNPoErQQPb5qEkGt1EC1xPzPt/XwbZvsKSDBF69BLTw==
 
-rescript@^10.0.1:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/rescript/-/rescript-10.0.1.tgz#5b2da8a8bcfb994bed1eb24820bf10cfb9d8c440"
-  integrity sha512-XwO1GPDtoEU4H03xQE5bp0/qtSVR6YLaJRPxWKrfFgKc+LI36ODOCie7o9UJfgzQdoMYkkZyiTGZ4N9OQEaiUw==
+rescript-nodejs@15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/rescript-nodejs/-/rescript-nodejs-15.0.0.tgz#f62253f61808131ae3c6176411b88d60299e456d"
+  integrity sha512-VvvM8/lI90Dfu0x4886NyINbUcBBx8F6hmftH9UaMjUgYIPfsdVopG3d30OzcbroiOKySgo4wwVNEmtYDZs+nw==
+
+rescript@0.12.0-alpha.3:
+  version "11.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/rescript/-/rescript-11.0.0-rc.1.tgz#55da7ea3b25f2fad849105e1e733983124c8d726"
+  integrity sha512-NSeq8cKlHRyjyVhanJYDHkTruYH51HDmlc7Eal7foT97wUj6rOzP6F+dnE2JrC59yV6Xejqjb6i73aXSdaK6OQ==

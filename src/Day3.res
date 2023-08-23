@@ -1,5 +1,5 @@
 let getPriority = char => {
-  let code = char->Js.String2.charCodeAt(0)->Float.toInt
+  let code = char->String.charCodeAt(0)->Float.toInt
   if code >= 65 && code <= 90 {
     // A-Z
     Some(code - 38) // 27 through 52.
@@ -11,40 +11,44 @@ let getPriority = char => {
 }
 
 let parseInput = input =>
-  input
-  ->Js.String2.split("\n")
-  ->Array.map(line => line->Js.String2.split("")->Array.keepMap(getPriority))
+  input->String.split("\n")->Array.map(line => line->String.split("")->Array.filterMap(getPriority))
+
+// execute
+let textInput = await Utils.readInputAsync("Day3.txt")
+
+// Set.fromArray([])
 
 let part1 =
-  Utils.readInput("Day3.txt")
+  textInput
   ->parseInput
   ->Array.map(items => {
     let len = Array.length(items)
     (
-      items->Array.slice(~offset=0, ~len=len / 2)->Set.Int.fromArray,
-      items->Array.slice(~offset=len / 2, ~len)->Set.Int.fromArray,
+      items->Array.slice(~start=0, ~end=len / 2)->Set.fromArray,
+      items->Array.slice(~start=len / 2, ~end=len)->Set.fromArray,
     )
   })
   ->Array.map(((first, second)) => {
-    Set.Int.intersect(first, second)->Set.Int.toArray
+    Utils.Set.intersect(first, second)->Set.values->Iterator.toArray
   })
   ->Array.reduce([], (acc, prioritys) => acc->Array.concat(prioritys))
   ->Utils.sumIntArray
 
 let part2 =
-  Utils.readInput("Day3.txt")
+  textInput
   ->parseInput
   ->Utils.chunkArray(~step=3)
-  ->Array.keepMap(group => {
+  ->Array.filterMap(group => {
     switch group->List.fromArray {
     | list{first, ...rest} =>
       Some(
         rest
         ->List.toArray
-        ->Array.reduce(first->Set.Int.fromArray, (acc, items) =>
-          Set.Int.intersect(acc, Set.Int.fromArray(items))
+        ->Array.reduce(first->Set.fromArray, (acc, items) =>
+          Utils.Set.intersect(acc, items->Set.fromArray)
         )
-        ->Set.Int.toArray,
+        ->Set.values
+        ->Iterator.toArray,
       )
     | list{} => None
     }
@@ -52,7 +56,7 @@ let part2 =
   ->Array.reduce([], (acc, prioritys) => acc->Array.concat(prioritys))
   ->Utils.sumIntArray
 
-Js.log({
+Console.log({
   "part1": part1,
   "part2": part2,
 })

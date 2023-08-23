@@ -1,14 +1,14 @@
 let parsePair = pair =>
-  switch pair->Js.String2.split("-")->Array.keepMap(Int.fromString) {
-  | [min, max] => Some(Array.range(min, max)->Set.Int.fromArray)
+  switch pair->String.split("-")->Array.filterMap(v => Int.fromString(v)) {
+  | [min, max] => Some(Belt.Array.range(min, max)->Set.fromArray)
   | _ => None
   }
 
 let parseInput = input =>
   input
-  ->Js.String2.split("\n")
-  ->Array.keepMap(line =>
-    switch line->Js.String2.split(",")->Array.map(parsePair) {
+  ->String.split("\n")
+  ->Array.filterMap(line =>
+    switch line->String.split(",")->Array.map(parsePair) {
     | [Some(sections1), Some(sections2)] => Some((sections1, sections2))
     | _ => None
     }
@@ -17,21 +17,21 @@ let parseInput = input =>
 let part1 =
   Utils.readInput("Day4.txt")
   ->parseInput
-  ->Array.keep(((sections1, sections2)) =>
-    sections1->Set.Int.intersect(sections2)->Set.Int.size ==
-      Js.Math.min_int(sections1->Set.Int.size, sections2->Set.Int.size)
+  ->Array.filter(((sections1, sections2)) =>
+    sections1->Utils.Set.intersect(sections2)->Set.size ==
+      Math.Int.min(sections1->Set.size, sections2->Set.size)
   )
   ->Array.length
 
 let part2 =
   Utils.readInput("Day4.txt")
   ->parseInput
-  ->Array.keep(((sections1, sections2)) =>
-    sections1->Set.Int.intersect(sections2)->Set.Int.size > 0
+  ->Belt.Array.keep(((sections1, sections2)) =>
+    sections1->Utils.Set.intersect(sections2)->Set.size > 0
   )
   ->Array.length
 
-Js.log({
+Console.log({
   "part1": part1,
   "part2": part2,
 })

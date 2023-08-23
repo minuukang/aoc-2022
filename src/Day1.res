@@ -1,18 +1,20 @@
 let parseElfCalorie = input =>
   input
-  ->Js.String2.split("\n\n")
-  ->Array.map(elf => elf->Js.String2.split("\n")->Array.keepMap(Int.fromString))
+  ->String.split("\n\n")
+  ->Array.map(elf => elf->String.split("\n")->Array.filterMap(line => Int.fromString(line)))
   ->Array.map(calories => calories->Utils.sumIntArray)
 
-let part1 = Utils.readInput("Day1.txt")->parseElfCalorie->Js.Math.maxMany_int
+let fileInput = await Utils.readInputAsync("Day1.txt")
+
+let part1 = fileInput->parseElfCalorie->Math.Int.maxMany
 let part2 =
-  Utils.readInput("Day1.txt")
+  fileInput
   ->parseElfCalorie
-  ->Js.Array2.sortInPlaceWith((a, b) => b - a)
-  ->Array.slice(~offset=0, ~len=3)
+  ->Array.toSorted((a, b) => Float.fromInt(b - a))
+  ->Array.slice(~start=0, ~end=3)
   ->Utils.sumIntArray
 
-Js.log({
+Console.log({
   "part1": part1,
   "part2": part2,
 })
